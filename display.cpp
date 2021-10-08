@@ -151,6 +151,10 @@ void clockDisplay::invert(uint8_t startDev, uint8_t endDev)
 {
     display->transform(startDev, endDev, MD_MAX72XX::TINV);
 }
+void clockDisplay::setFont(MD_MAX72XX::fontType_t *f)
+{
+    display->setFont(f);
+}
 
 void clockDisplay::loop()
 {

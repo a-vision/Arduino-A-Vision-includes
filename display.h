@@ -55,6 +55,7 @@ namespace AVision
 
             void setIntensity(uint8_t intensity, uint8_t start, uint8_t end);
             void setIntensity(uint8_t intensity); // whole display
+            void setFont(MD_MAX72XX::fontType_t *f);
             void loop();
             void init(int columns, int rows);
 
