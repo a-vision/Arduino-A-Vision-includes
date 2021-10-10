@@ -21,8 +21,8 @@
 #include "font_with_tiny_numbers.h"
 
 // Define the number of devices we have in the chain and the hardware interface
-#ifndef HARDWARE_TYPE
-#define HARDWARE_TYPE MD_MAX72XX::DR1CR0RR0_HW
+#ifndef DISPLAY_HARDWARE_TYPE
+#define DISPLAY_HARDWARE_TYPE   MD_MAX72XX::DR1CR0RR0_HW
 #endif
 
 #define CLK_PIN         D5  // or SCK

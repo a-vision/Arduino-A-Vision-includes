@@ -16,9 +16,12 @@ using namespace AVision;
 
 uint8_t RGBleds::secondToLEDindex(int second)
 {
-    if (LEDreversed) {
-        return ((60-second) + firstLED) % LEDcount;
-    } else {
+    if (LEDreversed)
+    {
+        return ((60 - second) + firstLED) % LEDcount;
+    }
+    else
+    {
         return (second + firstLED) % LEDcount;
     }
 }
@@ -39,10 +42,32 @@ uint32_t RGBleds::colorBrightness(uint32_t color, uint8_t brightness)
 
     return (w << 24) + (r << 16) + (g << 8) + b;
 }
-
-bool RGBleds::setLED(int second, uint32_t color)
+uint32_t RGBleds::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t white)
 {
-    int index = secondToLEDindex(second);
+    if (((LEDtype >> 6) & 0b11) == ((LEDtype >> 4) & 0b11))
+    {
+        // Without white
+        int r = (red + white / 2);
+        if (r > 255)
+            r = 255;
+        int g = (green + white / 2);
+        if (g > 255)
+            g = 255;
+        int b = (blue + white / 2);
+        if (b > 255)
+            b = 255;
+        return (r << 16) + (g << 8) + b;
+    }
+    else
+    {
+        // With white
+        return (white << 24) + (red << 16) + (green << 8) + blue;
+    }
+}
+
+bool RGBleds::setLED(int index, uint32_t color)
+{
+    dbgln(String(index) + " => #" + String(color, 16));
     if (CLOCK_LEDS[index] != color)
     {
         CLOCK_LEDS[index] = color;
@@ -51,6 +76,12 @@ bool RGBleds::setLED(int second, uint32_t color)
     }
     return false;
 }
+bool RGBleds::setSecondLED(int second, uint32_t color)
+{
+    int index = secondToLEDindex(second);
+    return setLED(index, color);
+}
+
 void RGBleds::setAll(uint32_t color)
 {
     for (size_t s = 0; s < LEDcount; s++)
@@ -99,7 +130,6 @@ void RGBleds::rotate(bool on)
     {
         setBrightness(10);
     }
-    //dbg(on ? " -> " : " <- ");
     for (size_t i = 0; i < LEDcount; i++)
     {
         if (on)
@@ -111,10 +141,8 @@ void RGBleds::rotate(bool on)
             setLED(i, leds->Color(0, 0, 0, 0));
         }
         update();
-        //dbg(String(i) + " ");
         delay(500 / LEDcount);
     }
-    //dbgln("");
     if (!on)
     {
         setBrightness(0);
@@ -149,7 +177,8 @@ void RGBleds::setOrientation(int orientation)
 
 void RGBleds::setLEDcount(uint8_t count)
 {
-    if (count != LEDcount) {
+    if (count != LEDcount)
+    {
         LEDcount = count;
         orientationFirstLED[0] = 0 * LEDcount / 4;
         orientationFirstLED[1] = 1 * LEDcount / 4;
@@ -160,6 +189,7 @@ void RGBleds::setLEDcount(uint8_t count)
 }
 void RGBleds::setLEDtype(uint16_t type)
 {
+    LEDtype = type;
     leds->updateType(type);
 }
 void RGBleds::setLEDreversed(bool on)
@@ -188,9 +218,10 @@ void RGBleds::init()
 
 RGBleds::RGBleds()
 {
-    LEDreversed = LED_REVERSED;
+    LEDtype = LED_TYPE;
     LEDcount = LED_COUNT;
-    leds = new Adafruit_NeoPixel(LEDcount, PIN, LED_TYPE + NEO_KHZ800);
+    LEDreversed = LED_REVERSED;
+    leds = new Adafruit_NeoPixel(LEDcount, LED_DIN_PIN, LEDtype + NEO_KHZ800);
     currentBrightness = 0;
 }
 

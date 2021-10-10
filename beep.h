@@ -13,8 +13,11 @@
 #ifndef __BEEP_H__
 #define __BEEP_H__
 
-#define BEEP_BUZZER D0
-#define BEEP_FREQUENCY 4000
+#ifndef BEEP_BUZZER
+#define BEEP_BUZZER     D0
+#endif
+
+#define BEEP_FREQUENCY  4000
 
 void beep(unsigned int frequency, int milliseconds, int pause);
 void beep(int milliseconds, int pause);

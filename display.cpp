@@ -175,7 +175,7 @@ void clockDisplay::init(int columns, int rows)
 
 
     // SPI hardware interface
-    display = new MD_MAX72XX(HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, display_columns*display_rows);
+    display = new MD_MAX72XX(DISPLAY_HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, display_columns*display_rows);
     display->begin();
     display->setFont(_font_with_tiny_numbers);
 

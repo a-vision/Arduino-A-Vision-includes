@@ -14,10 +14,10 @@
 
 #include "debug.h"
 
-#define PIN         D3
+#define LED_DIN_PIN D3
 #define LED_COUNT   60
 #define LED_COUNT_4 LED_COUNT / 4
-#define LED_TYPE    NEO_GRBW
+#define LED_TYPE    NEO_GRB
 #define LED_REVERSED false
 
 #ifndef __LEDS_H__
@@ -25,10 +25,8 @@
 
 namespace AVision
 {
-
     class RGBleds
     {
-
         private:
             int orientationFirstLED[4] = {0, LED_COUNT_4, LED_COUNT_4 * 2, LED_COUNT_4 * 3}; // UP, RIGHT, DOWN, LEFT
             int firstLED = 0;
@@ -45,6 +43,7 @@ namespace AVision
             uint32_t colorBrightness(uint32_t color, uint8_t brightness);
             void update(bool force);
             int LEDcount;
+            int LEDtype;
             bool LEDreversed;
 
         public:
@@ -53,7 +52,9 @@ namespace AVision
 
             bool initialised = false;
 
+            uint32_t color(uint8_t red, uint8_t green, uint8_t blue, uint8_t white);
             bool setLED(int second, uint32_t color);
+            bool setSecondLED(int second, uint32_t color);
             void setAll(uint32_t color);
             void setAll(uint32_t color, int brightness);
             void setBrightness(int brightness);
