@@ -91,7 +91,7 @@ void clock::setLeds(RGBleds *leds)
     c_leds = leds;
     ledsSet = true;
 }
-void clock::setDisplay(clockDisplay *display)
+void clock::setDisplay(dotmatrixDisplay *display)
 {
     c_Display = display;
     displaySet = true;

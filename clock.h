@@ -37,7 +37,7 @@ namespace AVision
 
             RGBleds *c_leds;
             bool ledsSet;
-            clockDisplay *c_Display;
+            dotmatrixDisplay *c_Display;
             bool displaySet;
 
             bool useNTP;
@@ -78,7 +78,7 @@ namespace AVision
             void onSecond(callbackFunctionInt event);
 
             void setLeds(RGBleds *leds);
-            void setDisplay(clockDisplay *display);
+            void setDisplay(dotmatrixDisplay *display);
             void displayOnOff();
 
             void loop();
