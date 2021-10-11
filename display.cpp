@@ -14,21 +14,21 @@
 
 using namespace AVision;
 
-void clockDisplay::showDot(uint8_t r, uint16_t c)
+void dotmatrixDisplay::showDot(uint8_t r, uint16_t c)
 {
     if (!display->getPoint(r, c))
     {
         display->setPoint(r, c, true);
     }
 }
-void clockDisplay::hideDot(uint8_t r, uint16_t c)
+void dotmatrixDisplay::hideDot(uint8_t r, uint16_t c)
 {
     if (display->getPoint(r, c))
     {
         display->setPoint(r, c, false);
     }
 }
-void clockDisplay::flashDot(uint8_t r, uint16_t c, int timeOn = 100, int timeOff = 900)
+void dotmatrixDisplay::flashDot(uint8_t r, uint16_t c, int timeOn = 100, int timeOff = 900)
 {
     static unsigned int last_toggle = 0;
     static bool state = false;
@@ -47,7 +47,16 @@ void clockDisplay::flashDot(uint8_t r, uint16_t c, int timeOn = 100, int timeOff
     }
 }
 
-void clockDisplay::showText(uint8_t modStart, uint8_t modEnd, char *pMsg)
+void dotmatrixDisplay::setRow(uint8_t row, uint8_t value)
+{
+    display->setRow(row, value);
+}
+void dotmatrixDisplay::setColumn(uint8_t column, uint8_t value)
+{
+    display->setColumn(column, value);
+}
+
+void dotmatrixDisplay::showText(uint8_t modStart, uint8_t modEnd, char *pMsg)
 // Print the text string to the LED matrix modules specified.
 // Message area is padded with blank columns after printing.
 {
@@ -84,8 +93,9 @@ void clockDisplay::showText(uint8_t modStart, uint8_t modEnd, char *pMsg)
                 tiny = false;
                 break;
             }
-            
-            if (tiny && c >= 42 && c <= 62) {
+
+            if (tiny && c >= 42 && c <= 62)
+            {
                 c += 100;
             }
 
@@ -129,7 +139,7 @@ void clockDisplay::showText(uint8_t modStart, uint8_t modEnd, char *pMsg)
     display->control(modStart, modEnd, MD_MAX72XX::UPDATE, MD_MAX72XX::ON);
 }
 
-void clockDisplay::setIntensity(uint8_t intensity, uint8_t startDev = 0, uint8_t endDev = 7)
+void dotmatrixDisplay::setIntensity(uint8_t intensity, uint8_t startDev = 0, uint8_t endDev = 7)
 {
     static uint8_t currentIntensity = 101;
     if (intensity != currentIntensity || currentIntensity > 100)
@@ -138,53 +148,56 @@ void clockDisplay::setIntensity(uint8_t intensity, uint8_t startDev = 0, uint8_t
         currentIntensity = intensity;
     }
 }
-void clockDisplay::setIntensity(uint8_t intensity)
+void dotmatrixDisplay::setIntensity(uint8_t intensity)
 {
     setIntensity(intensity, 0, 7);
 }
-void clockDisplay::shiftLeft()
+void dotmatrixDisplay::shiftLeft()
 {
     display->transform(MD_MAX72XX::TSL);
 }
 
-void clockDisplay::invert(uint8_t startDev, uint8_t endDev)
+void dotmatrixDisplay::invert(uint8_t startDev, uint8_t endDev)
 {
     display->transform(startDev, endDev, MD_MAX72XX::TINV);
 }
-void clockDisplay::setFont(MD_MAX72XX::fontType_t *f)
+void dotmatrixDisplay::setFont(MD_MAX72XX::fontType_t *f)
 {
     display->setFont(f);
 }
 
-void clockDisplay::loop()
+void dotmatrixDisplay::loop()
 {
     size_t newLine = text.indexOf("\n");
-    if (newLine >= 0) {
-        if (newLine > 0) {
-            showText(display_columns, display_columns*display_rows-1, (char*)text.substring(0, newLine).c_str());
+    if (newLine >= 0)
+    {
+        if (newLine > 0)
+        {
+            showText(display_columns, display_columns * display_rows - 1, (char *)text.substring(0, newLine).c_str());
         }
-        showText(0, display_columns-1, (char*)text.substring(newLine+1).c_str());
-    } else {
-        showText(0, display_columns*display_rows-1, (char*)text.c_str());
+        showText(0, display_columns - 1, (char *)text.substring(newLine + 1).c_str());
+    }
+    else
+    {
+        showText(0, display_columns * display_rows - 1, (char *)text.c_str());
     }
 }
-void clockDisplay::init(int columns, int rows)
+void dotmatrixDisplay::init(int columns, int rows)
 {
     display_columns = columns;
     display_rows = rows;
 
-
     // SPI hardware interface
-    display = new MD_MAX72XX(DISPLAY_HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, display_columns*display_rows);
+    display = new MD_MAX72XX(DISPLAY_HARDWARE_TYPE, DATA_PIN, CLK_PIN, CS_PIN, display_columns * display_rows);
     display->begin();
     display->setFont(_font_with_tiny_numbers);
 
-    setIntensity(10, 0, display_columns*display_rows);
+    setIntensity(10, 0, display_columns * display_rows);
 
     dbgln("Display initialised");
 }
 
-clockDisplay::clockDisplay()
+dotmatrixDisplay::dotmatrixDisplay()
 {
     display_columns = 1;
     display_rows = 1;
@@ -192,6 +205,6 @@ clockDisplay::clockDisplay()
     text = "";
 }
 
-clockDisplay::~clockDisplay()
+dotmatrixDisplay::~dotmatrixDisplay()
 {
 }

@@ -33,7 +33,7 @@
 
 namespace AVision
 {
-    class clockDisplay
+    class dotmatrixDisplay
     {
         private:
 
@@ -47,6 +47,9 @@ namespace AVision
         public:
             String text; // Use ▼ to use tiny numbers and ▲ to use normal sized numbers
 
+            void setRow(uint8_t row, uint8_t value);
+            void setColumn(uint8_t column, uint8_t value);
+
             void showDot(uint8_t row, uint16_t column);
             void hideDot(uint8_t row, uint16_t column);
             void flashDot(uint8_t row, uint16_t column, int on, int off);
@@ -59,10 +62,9 @@ namespace AVision
             void loop();
             void init(int columns, int rows);
 
-            clockDisplay();
-            ~clockDisplay();
+            dotmatrixDisplay();
+            ~dotmatrixDisplay();
     };
-
 }
 
 #endif
