@@ -14,10 +14,16 @@
 
 #include "debug.h"
 
+#ifndef LED_DIN_PIN
 #define LED_DIN_PIN D3
-#define LED_COUNT   60
-#define LED_COUNT_4 LED_COUNT / 4
+#endif
+#ifndef LED_TYPE
 #define LED_TYPE    NEO_GRB
+#endif
+#ifndef LED_COUNT
+#define LED_COUNT   60
+#endif
+#define LED_COUNT_4 LED_COUNT / 4
 #define LED_REVERSED false
 
 #ifndef __LEDS_H__
@@ -52,7 +58,7 @@ namespace AVision
 
             bool initialised = false;
 
-            uint32_t color(uint8_t red, uint8_t green, uint8_t blue, uint8_t white);
+            uint32_t color(uint8_t red, uint8_t green, uint8_t blue, uint8_t white); // RED, GREEN, BLUE, WHITE (0..255)
             bool setLED(int second, uint32_t color);
             bool setSecondLED(int second, uint32_t color);
             void setAll(uint32_t color);

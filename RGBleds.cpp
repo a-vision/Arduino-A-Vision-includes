@@ -42,6 +42,7 @@ uint32_t RGBleds::colorBrightness(uint32_t color, uint8_t brightness)
 
     return (w << 24) + (r << 16) + (g << 8) + b;
 }
+
 uint32_t RGBleds::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t white)
 {
     if (((LEDtype >> 6) & 0b11) == ((LEDtype >> 4) & 0b11))
