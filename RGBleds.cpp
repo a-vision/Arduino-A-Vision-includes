@@ -68,7 +68,7 @@ uint32_t RGBleds::color(uint8_t red, uint8_t green, uint8_t blue, uint8_t white)
 
 bool RGBleds::setLED(int index, uint32_t color)
 {
-    dbgln(String(index) + " => #" + String(color, 16));
+    // dbgln(String(index) + " => #" + String(color, 16));
     if (CLOCK_LEDS[index] != color)
     {
         CLOCK_LEDS[index] = color;
@@ -217,13 +217,17 @@ void RGBleds::init()
     dbgln("RGBleds initialised");
 }
 
-RGBleds::RGBleds()
+RGBleds::RGBleds(int pin)
 {
     LEDtype = LED_TYPE;
     LEDcount = LED_COUNT;
     LEDreversed = LED_REVERSED;
-    leds = new Adafruit_NeoPixel(LEDcount, LED_DIN_PIN, LEDtype + NEO_KHZ800);
+    leds = new Adafruit_NeoPixel(LEDcount, pin, LEDtype + NEO_KHZ800);
     currentBrightness = 0;
+}
+RGBleds::RGBleds()
+{
+    RGBleds(LED_DIN_PIN);
 }
 
 RGBleds::~RGBleds()

@@ -72,6 +72,7 @@ namespace AVision
             void loop();
             void init();
 
+            RGBleds(int pin);
             RGBleds();
             ~RGBleds();
     };

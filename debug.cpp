@@ -32,6 +32,7 @@ void initDebug(bool active)
     debug_active = active;
 
     Serial.begin(SERIAL_BAUDRATE);
+    delay(1000);
     Serial.println("\e[3J"); // Clear screen
 
     delay(100);
