@@ -22,6 +22,8 @@
 
 namespace AVision
 {
+    enum clock_mode {CM_INIT, CM_STANDARD, CM_FIRE, CM_NEWYEAR, CM_PARTY, CM_DEMO};
+
     struct clock_datetime {
         uint16_t year;
         uint8_t month;
@@ -61,7 +63,10 @@ namespace AVision
             bool show_RTC_led;
             bool digitalOn;
 
+            clock_mode mode;
         public:
+            clock_mode getMode();
+            void setMode(clock_mode new_mode);
 
             void setDateTime(String ts);
             clock_datetime getDateTime();

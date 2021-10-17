@@ -47,19 +47,23 @@ namespace AVision
 
             uint8_t secondToLEDindex(int second);
             uint32_t colorBrightness(uint32_t color, uint8_t brightness);
-            void update(bool force);
             int LEDcount;
             int LEDtype;
             bool LEDreversed;
 
+            byte heat[100];
+            void setPixelHeatColor (int Pixel, byte temperature);
+
+            void update(bool force);
         public:
             void rotate(bool on);
             void party(bool on);
+            void fire();
 
             bool initialised = false;
 
             uint32_t color(uint8_t red, uint8_t green, uint8_t blue, uint8_t white); // RED, GREEN, BLUE, WHITE (0..255)
-            bool setLED(int second, uint32_t color);
+            bool setLED(int index, uint32_t color);
             bool setSecondLED(int second, uint32_t color);
             void setAll(uint32_t color);
             void setAll(uint32_t color, int brightness);

@@ -97,6 +97,15 @@ void clock::setDisplay(dotmatrixDisplay *display)
     displaySet = true;
 }
 
+clock_mode clock::getMode()
+{
+    return mode;
+}
+void clock::setMode(clock_mode new_mode)
+{
+    mode = new_mode;
+}
+
 void clock::onYear(callbackFunctionInt event)
 {
     yearEvent = event;
@@ -290,6 +299,8 @@ void clock::init(clock_settings_struct clock_settings)
 
 clock::clock()
 {
+    mode = CM_INIT;
+
     ledsSet = false;
     displaySet = false;
     useNTP = false;
