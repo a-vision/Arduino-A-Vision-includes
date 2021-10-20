@@ -1,4 +1,3 @@
-
 #pragma once
 
 const uint8_t PROGMEM _font_with_tiny_numbers[] =

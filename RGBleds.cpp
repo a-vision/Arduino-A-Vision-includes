@@ -128,6 +128,7 @@ void RGBleds::setBrightness(int brightness)
 void RGBleds::setOrientation(int orientation)
 {
     firstLED = orientationFirstLED[orientation];
+    dbgln("First led: " + String(firstLED));
     update(true);
 }
 
